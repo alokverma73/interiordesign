@@ -1,4 +1,5 @@
 import logging
+import os
 import time
 
 from fastapi import FastAPI
@@ -87,6 +88,8 @@ app.add_middleware(
 register_error_handlers(app)
 
 # --- Static file serving for locally-stored (non-sensitive/public) assets ---
+os.makedirs(settings.LOCAL_STORAGE_PATH, exist_ok=True)
+app.mount("/media", StaticFiles(directory=settings.LOCAL_STORAGE_PATH), name="media")
 app.mount("/media", StaticFiles(directory=settings.LOCAL_STORAGE_PATH), name="media")
 
 # --- Routers ---
